@@ -1,0 +1,62 @@
+<!-- Forms should only be inputs with their associated buttons -->
+<!DOCTYPE html>
+<head>
+  <!-- Add favicon later :) -->
+  <title>Foto-Finder</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel = 'stylesheet' href = 'normalize.css'> 
+  <link rel = 'stylesheet' href = 'styles.css'> 
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800" rel="stylesheet">
+</head>
+
+<body>
+
+  <header>
+    <h1>FOTO <img class="foto-finder-logo" src="images/foto-finder-logo.svg" alt="foto finder logo"> FINDER</h1>
+    <form class="search-form">
+      <input type="text" placeholder="Search" id="search-input">
+      <button type="submit" class="search-button"> <i class="fas fa-search"></i> </button>
+    </form>
+  </header>
+
+
+  <main>
+    <form class="idea-form">
+      <label for="title-input">Title</label>
+        <input type="text" class="title-input">
+      <label for="caption-input">Caption</label>
+        <input type="text" class="caption-input">
+
+      <label class="choose-file-button" for="choose-file-input">
+        <div class="choose-file-div">Choose File</div>
+      </label>
+        <input type="file" id="choose-file-input" accept="image/png, image/jpeg" class="buttons choose-file-button"/>
+
+      <div class="favorites-and-add-buttons">
+        <button class="buttons favorites-button">View 1 Favorites</button>
+        <button class="add-to-album-button buttons">Add to Album</button>
+      </div>
+    </form>
+  </main>
+
+
+  <article>
+    <div class="card">
+      <h4 class="card-title">Waterfall Image</h4>
+      <div class="uploaded-image"></div>
+      <h4 class="card-caption">Lorem ipsum dolor sit amet, consectetuer adipescing elit.</h4>
+      <section class="card-footer">
+        <img class="delete-icon" src="images/delete.svg">
+        <img class="favorite-icon" src="images/favorite.svg">
+      </section>
+    </div>
+
+    <div class='card'>
+
+    </div>
+    
+  </article>
+
+</body>

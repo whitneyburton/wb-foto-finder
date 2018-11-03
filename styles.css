@@ -1,0 +1,199 @@
+/* More frequent comments throughout css */
+/* Leverage percentage widths over grid for 
+less complex layouts*/
+
+/* entire page */
+
+* {
+  font-family: Open Sans, sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  background-color: #C2B2B4;
+}
+
+/* page head */
+header {
+  background-color: #3E2A35;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+}
+
+h1 {
+  color: #FFF;
+  letter-spacing: 2px
+}
+
+.foto-finder-logo {
+  width: 40px;
+}
+
+/* search input */
+.search-form {
+  display: flex;
+  height: 4vh;
+  padding-top: 5px;
+}
+
+#search-input {
+  border-radius: 3px 0px 0px 3px;
+  border: none;
+  color: #8A8494;
+  outline-color: #bfb3b4;
+  padding: 5px;
+}
+
+.search-button {
+  background-color: #C2B2B4;
+  border-radius: 0px 3px 3px 0px;
+  border: none;
+}
+
+.search-button:hover {
+  cursor: pointer;
+}
+
+.fa-search {
+  color: #FFFFFF;
+  padding: 6px;
+  font-size: 13px;
+}
+
+/* main section */
+main {
+  background-color: #3E2A35;
+}
+
+/* title and caption inputs */
+.idea-form {
+  width: 70%;
+  margin: auto;
+  grid-column: 2/3;
+  padding-top: 20px;
+}
+
+label {
+  color: #bfb3b4;
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.title-input,
+.caption-input {
+  height: 4.5vh;
+  border: solid 1px #d4d2d8;
+  margin-bottom: 18px;
+  margin-top: 5px;
+  outline-color: #bfb3b4;
+  width: 100%;
+}
+
+/* choose file button */
+
+#choose-file-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.choose-file-button {
+  background-color: #5B4447;
+  border-color: #5B4447;
+  color: #FFF;
+  height: 4.5vh;
+  letter-spacing: 1px;
+  width: 100%;
+  font-size: 12px;
+}
+
+.choose-file-div {
+  background-color: #5B4447;
+  /*height: 4.5vh;*/
+  padding: 2% 0% 2% 40%;
+}
+
+.choose-file-button:disabled {
+  background-color: #808080;
+}
+
+/* favorites & add to album buttons */
+.buttons {
+  background-color: #5B4447;
+  border-color: #5B4447;
+  color: #FFF;
+  height: 4.5vh;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.buttons:hover,
+.choose-file-button:hover {
+  cursor: pointer;
+}
+
+.favorites-and-add-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+.favorites-button,
+.add-to-album-button {
+  width: 42%;
+}
+
+/* uploaded cards */
+article {
+  display: flex;
+}
+
+.card {
+  background-color: white;
+  height: 320px;
+  width: 220px;
+  margin: 30px 0px 15px 50px;
+  border-radius: 2px;
+  /*box-shadow: 2px 2px 2px grey;*/
+  /*border-style: outset;*/
+  border-width: 2px;
+}
+
+h4 {
+  padding: 8px;
+  font-weight: 500;
+}
+
+.card-title {
+
+}
+
+.card-caption {
+
+}
+
+.uploaded-image {
+  background-image: url("https://www.atlantatrails.com/wp-content/uploads/2017/04/georgia-waterfall-road-trip-1024x683.jpg")
+  /*background-color: grey;*/
+  width: 100%;
+  height: 45%;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  background-color: #5B4447;
+  height: 56px;
+}
+
+.delete-icon,
+.favorite-icon {
+  height: 30px;
+  padding: 12px;
+}
