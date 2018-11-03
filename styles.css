@@ -151,22 +151,24 @@ label {
 
 /* uploaded cards */
 article {
-  display: flex;
-  justify-content: space-around;
-  padding-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 20px;
 }
 
-.card {
+.card-wrapper {
   background-color: white;
   height: auto;
   width: 220px;
   border-radius: 2px;
   border-width: 2px;
+  margin: 10px;
 }
 
 h4 {
   padding: 8px;
   font-weight: 500;
+  height: 23px;
 }
 
 /*.card-title {}
@@ -192,3 +194,11 @@ h4 {
   height: 30px;
   padding: 12px;
 }
+
+.delete-icon:hover,
+.favorite-icon:hover {
+  cursor: pointer;
+}
+
+
+
