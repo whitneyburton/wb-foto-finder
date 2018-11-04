@@ -1,9 +1,9 @@
 class Foto {
-  constructor(title, caption, id, file, favorite) {
+  constructor(title, caption, file, id, favorite) {
     this.title = title;
     this.caption = caption;
     this.id = id || Date.now();
-    // this.file = file;
+    this.file = file;
     this.favorite = false;
   };
 

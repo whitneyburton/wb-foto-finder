@@ -20,7 +20,8 @@ function reloadCards() {
 
 function fotoCardProperties(e) {
   e.preventDefault();
-  var newFotoObj = new Foto(titleInput.value, captionInput.value);
+  var fotoUpload = URL.createObjectURL(document.getElementById('choose-file-input').files[0]);
+  var newFotoObj = new Foto(titleInput.value, captionInput.value, fotoUpload);
   newFotoObj.saveToStorage();
   populateFotoCard(newFotoObj);
   document.querySelector('.foto-form').reset();
@@ -31,12 +32,11 @@ function populateFotoCard(newFotoObj) {
   var cardArticle = document.getElementById('card-article');
   card.className='card';
   card.id = newFotoObj.id;
-  // dataset.index here for id
   card.innerHTML = 
     `<div class="card-wrapper">
       <h4 class="card-title" contenteditable="true">${newFotoObj.title}</h4>
       <div class="uploaded-image">
-        <img class="uploaded-image" src="images/waterfall.jpg">
+        <img class="uploaded-image" src="${newFotoObj.file}">
       </div>
       <h4 class="card-caption">${newFotoObj.caption}</h4>
       <section class="card-footer">
@@ -44,15 +44,30 @@ function populateFotoCard(newFotoObj) {
         <img class="favorite-icon" src="images/favorite.svg">
       </section>
     </div>`;
-  cardArticle.append(card);
+  cardArticle.prepend(card);
 };
 
 function removeFotoCard(e) {
   if (e.target.className === 'delete-icon') {
-    var id = e.target.closest('.card'.id);
-    var deleteMethodObj = new Foto('', '', id);
-    // console.log(deleteMethodObj);
+    var id = e.target.closest('.card').id;
+    var deleteMethodObj = new Foto('', '', '', id);
     deleteMethodObj.deleteFromStorage();
     e.target.closest('.card').remove();
   }
-}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
