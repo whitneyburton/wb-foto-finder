@@ -8,8 +8,19 @@ var captionInput = document.querySelector('.caption-input');
 
 document.querySelector('.add-to-album-button').addEventListener('click', fotoCardProperties);
 document.getElementById('card-article').addEventListener('click', removeFotoCard);
+document.getElementById('card-article').addEventListener('focusout', updateCardInputs);
 
 reloadCards();
+
+// function favoriteFotoCard(e) {
+//   if (e.target.className === 'favorite-icon') {
+//     var id = e.target.closest('.card').id;
+//     var deleteMethodObj = new Foto('', '', '', id);
+//     deleteMethodObj.deleteFromStorage();
+//     e.target.closest('.card').remove();
+//   }
+// };
+
 
 function reloadCards() {
   document.querySelector('.foto-form').reset();
@@ -38,7 +49,7 @@ function populateFotoCard(newFotoObj) {
       <div class="uploaded-image">
         <img class="uploaded-image" src="${newFotoObj.file}">
       </div>
-      <h4 class="card-caption">${newFotoObj.caption}</h4>
+      <h4 class="card-caption" contenteditable="true">${newFotoObj.caption}</h4>
       <section class="card-footer">
         <img class="delete-icon" src="images/delete.svg">
         <img class="favorite-icon" src="images/favorite.svg">
@@ -56,7 +67,17 @@ function removeFotoCard(e) {
   }
 };
 
-
+function updateCardInputs(e) {
+  var id = e.target.closest('.card').id;
+  var parsedFoto = JSON.parse(localStorage.getItem(id));
+  var foto = new Foto(parsedFoto.title, parsedFoto.body, '', id);
+    if (e.target.className === 'card-title') {
+      foto.updateFoto(e.target.innerText, 'title');
+    }
+    if (e.target.className === 'card-caption') {
+      foto.updateFoto(e.target.innerText, 'caption');
+    }
+};
 
 
 

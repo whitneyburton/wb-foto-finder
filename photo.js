@@ -15,8 +15,9 @@ class Foto {
     localStorage.removeItem(this.id);
   };
 
-  updateFoto() {
-
+  updateFoto(text, type) {
+    this[type] = text;
+    this.saveToStorage();
   };
 
 };
