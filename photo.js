@@ -4,7 +4,7 @@ class Foto {
     this.caption = caption;
     this.id = id || Date.now();
     this.file = file;
-    this.favorite = false;
+    this.favorite = favorite || false;
   };
 
   saveToStorage() {
@@ -19,5 +19,9 @@ class Foto {
     this[type] = text;
     this.saveToStorage();
   };
+
+  updateFavorite() {
+    this.favorite = !this.favorite;
+  }
 
 };

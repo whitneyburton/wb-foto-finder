@@ -8,18 +8,30 @@ var captionInput = document.querySelector('.caption-input');
 
 document.querySelector('.add-to-album-button').addEventListener('click', fotoCardProperties);
 document.getElementById('card-article').addEventListener('click', removeFotoCard);
+document.getElementById('card-article').addEventListener('click', favoriteFotoCard);
 document.getElementById('card-article').addEventListener('focusout', updateCardInputs);
+
 
 reloadCards();
 
-// function favoriteFotoCard(e) {
-//   if (e.target.className === 'favorite-icon') {
-//     var id = e.target.closest('.card').id;
-//     var deleteMethodObj = new Foto('', '', '', id);
-//     deleteMethodObj.deleteFromStorage();
-//     e.target.closest('.card').remove();
-//   }
-// };
+function favoriteFotoCard(e) {
+  if (e.target.className === 'favorite-icon') {
+    var id = e.target.closest('.card').id;
+    var parsedFoto = JSON.parse(localStorage.getItem(id));
+    var faveFotoObj = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, parsedFoto.id, parsedFoto.favorite);
+    faveFotoObj.updateFavorite();
+    e.target.src = updateFaveIcon(faveFotoObj);
+    faveFotoObj.saveToStorage();
+  }
+};
+
+function updateFaveIcon(faveFotoObj) {
+  if (faveFotoObj.favorite) {
+    return "images/favorite-active.svg";
+  } else {
+    return "images/favorite.svg";
+  }
+};
 
 
 function reloadCards() {
@@ -52,7 +64,7 @@ function populateFotoCard(newFotoObj) {
       <h4 class="card-caption" contenteditable="true">${newFotoObj.caption}</h4>
       <section class="card-footer">
         <img class="delete-icon" src="images/delete.svg">
-        <img class="favorite-icon" src="images/favorite.svg">
+        <img class="favorite-icon" src="${updateFaveIcon(newFotoObj)}">
       </section>
     </div>`;
   cardArticle.prepend(card);
