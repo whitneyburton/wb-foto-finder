@@ -16,9 +16,9 @@ reloadCards();
 
 function favoriteFotoCard(e) {
   if (e.target.className === 'favorite-icon') {
-    var id = e.target.closest('.card').id;
-    var parsedFoto = JSON.parse(localStorage.getItem(id));
-    var faveFotoObj = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, parsedFoto.id, parsedFoto.favorite);
+    let id = e.target.closest('.card').id;
+    let parsedFoto = JSON.parse(localStorage.getItem(id));
+    let faveFotoObj = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, parsedFoto.id, parsedFoto.favorite);
     faveFotoObj.updateFavorite();
     e.target.src = updateFaveIcon(faveFotoObj);
     faveFotoObj.saveToStorage();
@@ -43,16 +43,16 @@ function reloadCards() {
 
 function fotoCardProperties(e) {
   e.preventDefault();
-  var fotoUpload = URL.createObjectURL(document.getElementById('choose-file-input').files[0]);
-  var newFotoObj = new Foto(titleInput.value, captionInput.value, fotoUpload);
+  let fotoUpload = URL.createObjectURL(document.getElementById('choose-file-input').files[0]);
+  let newFotoObj = new Foto(titleInput.value, captionInput.value, fotoUpload);
   newFotoObj.saveToStorage();
   populateFotoCard(newFotoObj);
   document.querySelector('.foto-form').reset();
 }
 
 function populateFotoCard(newFotoObj) {
-  var card = document.createElement('section');
-  var cardArticle = document.getElementById('card-article');
+  let card = document.createElement('section');
+  let cardArticle = document.getElementById('card-article');
   card.className='card';
   card.id = newFotoObj.id;
   card.innerHTML = 
@@ -72,17 +72,17 @@ function populateFotoCard(newFotoObj) {
 
 function removeFotoCard(e) {
   if (e.target.className === 'delete-icon') {
-    var id = e.target.closest('.card').id;
-    var deleteMethodObj = new Foto('', '', '', id);
+    let id = e.target.closest('.card').id;
+    let deleteMethodObj = new Foto('', '', '', id);
     deleteMethodObj.deleteFromStorage();
     e.target.closest('.card').remove();
   }
 };
 
 function updateCardInputs(e) {
-  var id = e.target.closest('.card').id;
-  var parsedFoto = JSON.parse(localStorage.getItem(id));
-  var foto = new Foto(parsedFoto.title, parsedFoto.body, '', id);
+  let id = e.target.closest('.card').id;
+  let parsedFoto = JSON.parse(localStorage.getItem(id));
+  let foto = new Foto(parsedFoto.title, parsedFoto.body, '', id);
     if (e.target.className === 'card-title') {
       foto.updateFoto(e.target.innerText, 'title');
     }
