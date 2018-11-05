@@ -2,22 +2,26 @@
 // If there is no else, how could you leverage an else
 // Grab the whole object from storage. Not individuals properties at once
 
-// var addToAlbumButton = document.querySelector('.add-to-album-button');
 var titleInput =  document.querySelector('.title-input');
 var captionInput = document.querySelector('.caption-input');
+var photoAlbum = document.getElementById('card-article');
 
 document.querySelector('.add-to-album-button').addEventListener('click', fotoCardProperties);
-document.getElementById('card-article').addEventListener('click', removeFotoCard);
-document.getElementById('card-article').addEventListener('click', favoriteFotoCard);
-document.getElementById('card-article').addEventListener('focusout', updateCardInputs);
+photoAlbum.addEventListener('click', removeFotoCard);
+photoAlbum.addEventListener('click', favoriteFotoCard);
+photoAlbum.addEventListener('focusout', updateCardInputs);
 
 
 reloadCards();
 
 function favoriteFotoCard(e) {
   if (e.target.className === 'favorite-icon') {
+    console.log('fires')
+    // let faveCounter = [];
     let id = e.target.closest('.card').id;
     let parsedFoto = JSON.parse(localStorage.getItem(id));
+    // faveCounter.push(id);
+    // console.log(faveCounter);
     let faveFotoObj = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, parsedFoto.id, parsedFoto.favorite);
     faveFotoObj.updateFavorite();
     e.target.src = updateFaveIcon(faveFotoObj);
@@ -84,7 +88,7 @@ function updateCardInputs(e) {
   let parsedFoto = JSON.parse(localStorage.getItem(id));
   let foto = new Foto(parsedFoto.title, parsedFoto.body, '', id);
     if (e.target.className === 'card-title') {
-      foto.updateFoto(e.target.innerText, 'title');
+      foto.updateFoto('title', e.target.innerText);
     }
     if (e.target.className === 'card-caption') {
       foto.updateFoto(e.target.innerText, 'caption');
