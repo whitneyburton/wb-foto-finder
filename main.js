@@ -1,24 +1,23 @@
-// Consider where you can leverage parameters and arguments
-// If there is no else, how could you leverage an else
-// Grab the whole object from storage. Not individuals properties at once
-
-// var addToAlbumButton = document.querySelector('.add-to-album-button');
 var titleInput =  document.querySelector('.title-input');
 var captionInput = document.querySelector('.caption-input');
+var photoAlbum = document.getElementById('card-article');
+var favoritesButton = document.querySelector('.num-of-favorites');
+var addToAlbumButton = document.querySelector('.add-to-album-button');
+var faveCounter = 0;
+// var reader = new FileReader();
 
-document.querySelector('.add-to-album-button').addEventListener('click', fotoCardProperties);
-document.getElementById('card-article').addEventListener('click', removeFotoCard);
-document.getElementById('card-article').addEventListener('click', favoriteFotoCard);
-document.getElementById('card-article').addEventListener('focusout', updateCardInputs);
-
+addToAlbumButton.addEventListener('click', fotoCardProperties);
+photoAlbum.addEventListener('click', removeFotoCard);
+photoAlbum.addEventListener('click', favoriteFotoCard);
+photoAlbum.addEventListener('focusout', updateCardInputs);
 
 reloadCards();
 
 function favoriteFotoCard(e) {
   if (e.target.className === 'favorite-icon') {
-    var id = e.target.closest('.card').id;
-    var parsedFoto = JSON.parse(localStorage.getItem(id));
-    var faveFotoObj = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, parsedFoto.id, parsedFoto.favorite);
+    let id = e.target.closest('.card').id;
+    let parsedFoto = JSON.parse(localStorage.getItem(id));
+    let faveFotoObj = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, parsedFoto.id, parsedFoto.favorite);
     faveFotoObj.updateFavorite();
     e.target.src = updateFaveIcon(faveFotoObj);
     faveFotoObj.saveToStorage();
@@ -26,13 +25,18 @@ function favoriteFotoCard(e) {
 };
 
 function updateFaveIcon(faveFotoObj) {
-  if (faveFotoObj.favorite) {
-    return "images/favorite-active.svg";
-  } else {
-    return "images/favorite.svg";
-  }
+    if (faveFotoObj.favorite) {
+      faveCounter++;
+      console.log(faveCounter);
+      favoritesButton.innerText = faveCounter;
+      return "images/favorite-active.svg";
+    } else {
+      faveCounter--;
+      console.log(faveCounter);
+      favoritesButton.innerText = faveCounter;
+      return "images/favorite.svg";
+    }
 };
-
 
 function reloadCards() {
   document.querySelector('.foto-form').reset();
@@ -40,21 +44,26 @@ function reloadCards() {
       populateFotoCard(JSON.parse(localStorage.getItem(key)));
   })
 };
+// map through (instead of forEach) to go through array and splice to take out ten for 
+// the 
 
 function fotoCardProperties(e) {
   e.preventDefault();
-  var fotoUpload = URL.createObjectURL(document.getElementById('choose-file-input').files[0]);
-  var newFotoObj = new Foto(titleInput.value, captionInput.value, fotoUpload);
+  let fotoUpload = document.getElementById('choose-file-input').files[0];
+  let newFotoObj = new Foto(titleInput.value, captionInput.value, URL.createObjectURL(fotoUpload));
   newFotoObj.saveToStorage();
   populateFotoCard(newFotoObj);
   document.querySelector('.foto-form').reset();
 }
 
 function populateFotoCard(newFotoObj) {
-  var card = document.createElement('section');
-  var cardArticle = document.getElementById('card-article');
+  let card = document.createElement('section');
+  let cardArticle = document.getElementById('card-article');
   card.className='card';
   card.id = newFotoObj.id;
+  var favIcon = newFotoObj.favorite ? "images/favorite-active.svg" : "images/favorite.svg";
+  newFotoObj.favorite && faveCounter++
+  favoritesButton.innerText = faveCounter;
   card.innerHTML = 
     `<div class="card-wrapper">
       <h4 class="card-title" contenteditable="true">${newFotoObj.title}</h4>
@@ -64,7 +73,7 @@ function populateFotoCard(newFotoObj) {
       <h4 class="card-caption" contenteditable="true">${newFotoObj.caption}</h4>
       <section class="card-footer">
         <img class="delete-icon" src="images/delete.svg">
-        <img class="favorite-icon" src="${updateFaveIcon(newFotoObj)}">
+        <img class="favorite-icon" src="${favIcon}">
       </section>
     </div>`;
   cardArticle.prepend(card);
@@ -72,35 +81,21 @@ function populateFotoCard(newFotoObj) {
 
 function removeFotoCard(e) {
   if (e.target.className === 'delete-icon') {
-    var id = e.target.closest('.card').id;
-    var deleteMethodObj = new Foto('', '', '', id);
+    let id = e.target.closest('.card').id;
+    let deleteMethodObj = new Foto('', '', '', id);
     deleteMethodObj.deleteFromStorage();
     e.target.closest('.card').remove();
   }
 };
 
 function updateCardInputs(e) {
-  var id = e.target.closest('.card').id;
-  var parsedFoto = JSON.parse(localStorage.getItem(id));
-  var foto = new Foto(parsedFoto.title, parsedFoto.body, '', id);
+  let id = e.target.closest('.card').id;
+  let parsedFoto = JSON.parse(localStorage.getItem(id));
+  let foto = new Foto(parsedFoto.title, parsedFoto.body, '', id);
     if (e.target.className === 'card-title') {
-      foto.updateFoto(e.target.innerText, 'title');
+      foto.updateFoto('title', e.target.innerText);
     }
     if (e.target.className === 'card-caption') {
       foto.updateFoto(e.target.innerText, 'caption');
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-

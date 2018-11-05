@@ -52,10 +52,6 @@ h1 {
   border: none;
 }
 
-.search-button:hover {
-  cursor: pointer;
-}
-
 .fa-search {
   color: #FFFFFF;
   padding: 6px;
@@ -71,7 +67,6 @@ main {
 .foto-form {
   width: 70%;
   margin: auto;
-  grid-column: 2/3;
   padding-top: 20px;
 }
 
@@ -84,7 +79,7 @@ label {
 
 .title-input,
 .caption-input {
-  height: 4.5vh;
+  height: 35px;
   border: solid 1px #d4d2d8;
   margin-bottom: 18px;
   margin-top: 5px;
@@ -93,7 +88,6 @@ label {
 }
 
 /* choose file button */
-
 #choose-file-input {
   width: 0.1px;
   height: 0.1px;
@@ -115,8 +109,7 @@ label {
 
 .choose-file-div {
   background-color: #5B4447;
-  /*height: 4.5vh;*/
-  padding: 2% 0% 2% 40%;
+  padding: 1% 0% 1% 45%;
 }
 
 .choose-file-button:disabled {
@@ -128,7 +121,7 @@ label {
   background-color: #5B4447;
   border-color: #5B4447;
   color: #FFF;
-  height: 4.5vh;
+  height: 35px;
   letter-spacing: 1px;
   margin-bottom: 20px;
 }

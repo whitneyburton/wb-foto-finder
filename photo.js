@@ -22,6 +22,6 @@ class Foto {
 
   updateFavorite() {
     this.favorite = !this.favorite;
-  }
+  };
 
 };
