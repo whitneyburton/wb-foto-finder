@@ -1,15 +1,12 @@
-// Consider where you can leverage parameters and arguments
-// If there is no else, how could you leverage an else
-// Grab the whole object from storage. Not individuals properties at once
-
 var titleInput =  document.querySelector('.title-input');
 var captionInput = document.querySelector('.caption-input');
 var photoAlbum = document.getElementById('card-article');
 var favoritesButton = document.querySelector('.num-of-favorites');
-var faveCounter = [];
+var addToAlbumButton = document.querySelector('.add-to-album-button');
+var faveCounter = 0;
 // var reader = new FileReader();
 
-document.querySelector('.add-to-album-button').addEventListener('click', fotoCardProperties);
+addToAlbumButton.addEventListener('click', fotoCardProperties);
 photoAlbum.addEventListener('click', removeFotoCard);
 photoAlbum.addEventListener('click', favoriteFotoCard);
 photoAlbum.addEventListener('focusout', updateCardInputs);
@@ -28,16 +25,15 @@ function favoriteFotoCard(e) {
 };
 
 function updateFaveIcon(faveFotoObj) {
-  let id = 'X'
     if (faveFotoObj.favorite) {
-      faveCounter.push(id);
+      faveCounter++;
       console.log(faveCounter);
-      favoritesButton.innerText = faveCounter.length;
+      favoritesButton.innerText = faveCounter;
       return "images/favorite-active.svg";
     } else {
-      faveCounter.pop();
+      faveCounter--;
       console.log(faveCounter);
-      favoritesButton.innerText = faveCounter.length;
+      favoritesButton.innerText = faveCounter;
       return "images/favorite.svg";
     }
 };
@@ -48,11 +44,13 @@ function reloadCards() {
       populateFotoCard(JSON.parse(localStorage.getItem(key)));
   })
 };
+// map through (instead of forEach) to go through array and splice to take out ten for 
+// the 
 
 function fotoCardProperties(e) {
   e.preventDefault();
-  let fotoUpload = URL.createObjectURL(document.getElementById('choose-file-input').files[0]);
-  let newFotoObj = new Foto(titleInput.value, captionInput.value, fotoUpload);
+  let fotoUpload = document.getElementById('choose-file-input').files[0];
+  let newFotoObj = new Foto(titleInput.value, captionInput.value, URL.createObjectURL(fotoUpload));
   newFotoObj.saveToStorage();
   populateFotoCard(newFotoObj);
   document.querySelector('.foto-form').reset();
@@ -63,6 +61,9 @@ function populateFotoCard(newFotoObj) {
   let cardArticle = document.getElementById('card-article');
   card.className='card';
   card.id = newFotoObj.id;
+  var favIcon = newFotoObj.favorite ? "images/favorite-active.svg" : "images/favorite.svg";
+  newFotoObj.favorite && faveCounter++
+  favoritesButton.innerText = faveCounter;
   card.innerHTML = 
     `<div class="card-wrapper">
       <h4 class="card-title" contenteditable="true">${newFotoObj.title}</h4>
@@ -72,7 +73,7 @@ function populateFotoCard(newFotoObj) {
       <h4 class="card-caption" contenteditable="true">${newFotoObj.caption}</h4>
       <section class="card-footer">
         <img class="delete-icon" src="images/delete.svg">
-        <img class="favorite-icon" src="${updateFaveIcon(newFotoObj)}">
+        <img class="favorite-icon" src="${favIcon}">
       </section>
     </div>`;
   cardArticle.prepend(card);
@@ -98,17 +99,3 @@ function updateCardInputs(e) {
       foto.updateFoto(e.target.innerText, 'caption');
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
