@@ -1,16 +1,26 @@
 var titleInput =  document.querySelector('.title-input');
 var captionInput = document.querySelector('.caption-input');
-var photoAlbum = document.getElementById('card-article');
 var favoritesButton = document.querySelector('.num-of-favorites');
-var addToAlbumButton = document.querySelector('.add-to-album-button');
 var faveCounter = 0;
 
-addToAlbumButton.addEventListener('click', fotoCardProperties);
+document.querySelector('.add-to-album-button').addEventListener('click', fotoCardProperties);
+document.querySelector('.add-to-album-button').disabled = true;
 select('#card-article').addEventListener('click', removeFotoCard);
-photoAlbum.addEventListener('click', favoriteFotoCard);
-photoAlbum.addEventListener('focusout', updateCardInputs);
+document.getElementById('card-article').addEventListener('click', favoriteFotoCard);
+document.getElementById('card-article').addEventListener('focusout', updateCardInputs);
+titleInput.addEventListener('keyup', disableButton);
+captionInput.addEventListener('keyup', disableButton);
 
 reloadCards();
+
+function disableButton() {
+  var addToAlbumButton = document.querySelector('.add-to-album-button');
+    if (titleInput.value !== '' && captionInput.value !== '') {
+      addToAlbumButton.disabled = false;
+    } else {
+     addToAlbumButton.disabled = true;
+    }
+};
 
 function select(field) {
   return document.querySelector(field);

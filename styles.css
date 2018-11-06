@@ -65,12 +65,15 @@ main {
 
 /* title and caption inputs */
 .foto-form {
+  display: flex;
+  flex-direction: column; 
   width: 70%;
   margin: auto;
   padding-top: 20px;
 }
 
-label {
+.title-label,
+.caption-label {
   color: #bfb3b4;
   font-weight: 400;
   font-size: 12px;
@@ -88,7 +91,11 @@ label {
 }
 
 /* choose file button */
-#choose-file-input {
+.test {
+  display: flex;
+}
+
+.inputfile {
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
@@ -97,19 +104,14 @@ label {
   z-index: -1;
 }
 
-.choose-file-button {
-  background-color: #5B4447;
-  border-color: #5B4447;
-  color: #FFF;
-  height: 4.5vh;
-  letter-spacing: 1px;
-  width: 100%;
-  font-size: 12px;
-}
-
-.choose-file-div {
-  background-color: #5B4447;
-  padding: 1% 0% 1% 45%;
+.inputfile + label {
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    height: 30px;
+    padding-top: 10px;
+    color: white;
+    background-color: #5B4447;
 }
 
 .choose-file-button:disabled {
@@ -140,6 +142,10 @@ label {
 .favorites-button,
 .add-to-album-button {
   width: 42%;
+}
+
+.add-to-album-button:disabled {
+  background-color: #917a7c;
 }
 
 /* uploaded cards */
@@ -204,7 +210,18 @@ h4 {
 @media screen and (max-width: 519px) {
   header {
     flex-direction: column;
+    align-items: center;
   }
 }
 
-
+@media screen and (max-width: 414px) {
+  .choose-file-div {
+    padding: 3% 0% 3% 34%
+  }
+  h1 {
+    font-size: 30px;
+  }
+  .favorites-button, 
+  .add-to-album-button {
+    font-size: 10px;
+  }

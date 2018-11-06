@@ -24,27 +24,24 @@
 
   <main>
     <form class="foto-form">
-      <label for="title-input">Title</label>
+      <label for="title-input" class="title-label">Title</label>
         <input type="text" class="title-input">
-      <label for="caption-input">Caption</label>
+      <label for="caption-input" class="caption-label">Caption</label>
         <input type="text" class="caption-input">
 
-      <label class="choose-file-button" for="choose-file-input">
-        <div class="choose-file-div">Choose File</div>
-      </label>
-        <input type="file" id="choose-file-input" accept="image/png, image/jpeg" class="buttons choose-file-button"/>
-
+      <input type="file" id="file" name="file" class="inputfile" accept="image/png, image/jpeg"/>
+      <label for="file">Choose File</label>
+      
       <div class="favorites-and-add-buttons">
-        <button class="buttons favorites-button">View <span class="num-of-favorites"></span> Favorites</button>
+        <button class="buttons favorites-button">
+          View <span class="num-of-favorites"></span> Favorites
+        </button>
         <button class="add-to-album-button buttons">Add to Album</button>
       </div>
     </form>
   </main>
 
-
-  <article id="card-article">
-    
-  </article>
+  <article id="card-article"></article>
 
 <script type="text/javascript" src="photo.js"></script>
 <script type="text/javascript" src="main.js"></script>
