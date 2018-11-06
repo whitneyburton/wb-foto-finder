@@ -4,14 +4,17 @@ var photoAlbum = document.getElementById('card-article');
 var favoritesButton = document.querySelector('.num-of-favorites');
 var addToAlbumButton = document.querySelector('.add-to-album-button');
 var faveCounter = 0;
-// var reader = new FileReader();
 
 addToAlbumButton.addEventListener('click', fotoCardProperties);
-photoAlbum.addEventListener('click', removeFotoCard);
+select('#card-article').addEventListener('click', removeFotoCard);
 photoAlbum.addEventListener('click', favoriteFotoCard);
 photoAlbum.addEventListener('focusout', updateCardInputs);
 
 reloadCards();
+
+function select(field) {
+  return document.querySelector(field);
+}
 
 function favoriteFotoCard(e) {
   if (e.target.className === 'favorite-icon') {
@@ -49,11 +52,16 @@ function reloadCards() {
 
 function fotoCardProperties(e) {
   e.preventDefault();
-  let fotoUpload = document.getElementById('choose-file-input').files[0];
-  let newFotoObj = new Foto(titleInput.value, captionInput.value, URL.createObjectURL(fotoUpload));
-  newFotoObj.saveToStorage();
-  populateFotoCard(newFotoObj);
-  document.querySelector('.foto-form').reset();
+  var reader = new FileReader();
+  reader.readAsDataURL(select('#choose-file-input').files[0])
+  reader.onload = function() {
+    var output = select('#choose-file-input');
+    output.src = reader.result;
+    let newFotoObj = new Foto(titleInput.value, captionInput.value, output.src);
+    newFotoObj.saveToStorage();
+    populateFotoCard(newFotoObj);
+    document.querySelector('.foto-form').reset();
+  }
 }
 
 function populateFotoCard(newFotoObj) {

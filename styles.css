@@ -144,8 +144,9 @@ label {
 
 /* uploaded cards */
 article {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
   padding: 20px;
 }
 
@@ -163,11 +164,6 @@ h4 {
   font-weight: 500;
   height: 23px;
 }
-
-/*.card-title {}
-}
-.card-caption {
-}*/
 
 .uploaded-image {
   object-fit: cover;
@@ -193,5 +189,22 @@ h4 {
   cursor: pointer;
 }
 
+@media screen and (max-width: 999px) {
+  .card {
+    margin: 0px 40px;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .card {
+    margin: 0px 0px;
+  }
+}
+
+@media screen and (max-width: 519px) {
+  header {
+    flex-direction: column;
+  }
+}
 
 
