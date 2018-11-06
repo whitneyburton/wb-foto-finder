@@ -204,7 +204,18 @@ h4 {
 @media screen and (max-width: 519px) {
   header {
     flex-direction: column;
+    align-items: center;
   }
 }
 
-
+@media screen and (max-width: 414px) {
+  .choose-file-div {
+    padding: 3% 0% 3% 34%
+  }
+  h1 {
+    font-size: 30px;
+  }
+  .favorites-button, 
+  .add-to-album-button {
+    font-size: 10px;
+  }
