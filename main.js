@@ -18,9 +18,9 @@ function select(field) {
 
 function favoriteFotoCard(e) {
   if (e.target.className === 'favorite-icon') {
-    // let id = e.target.closest('.card').id;
-    // let parsedFoto = JSON.parse(localStorage.getItem(id));
-    // let faveFotoObj = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, parsedFoto.id, parsedFoto.favorite);
+    let id = e.target.closest('.card').id;
+    let parsedFoto = JSON.parse(localStorage.getItem(id));
+    let faveFotoObj = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, parsedFoto.id, parsedFoto.favorite);
     faveFotoObj.updateFavorite();
     e.target.src = updateFaveIcon(faveFotoObj);
     faveFotoObj.saveToStorage();
