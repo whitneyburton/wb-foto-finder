@@ -65,12 +65,15 @@ main {
 
 /* title and caption inputs */
 .foto-form {
+  display: flex;
+  flex-direction: column; 
   width: 70%;
   margin: auto;
   padding-top: 20px;
 }
 
-label {
+.title-label,
+.caption-label {
   color: #bfb3b4;
   font-weight: 400;
   font-size: 12px;
@@ -88,7 +91,11 @@ label {
 }
 
 /* choose file button */
-#choose-file-input {
+.test {
+  display: flex;
+}
+
+.inputfile {
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
@@ -97,10 +104,12 @@ label {
   z-index: -1;
 }
 
-#choose-file-input + .choose-file-button {
+.inputfile + label {
     font-size: 12px;
     font-weight: 400;
-    padding: 1% 45%;
+    text-align: center;
+    height: 30px;
+    padding-top: 10px;
     color: white;
     background-color: #5B4447;
 }
