@@ -5,26 +5,23 @@ var faveCounter = 0;
 
 document.querySelector('.add-to-album-button').addEventListener('click', fotoCardProperties);
 document.querySelector('.add-to-album-button').disabled = true;
-select('#card-article').addEventListener('click', removeFotoCard);
+document.querySelector('#card-article').addEventListener('click', removeFotoCard);
 document.getElementById('card-article').addEventListener('click', favoriteFotoCard);
 document.getElementById('card-article').addEventListener('focusout', updateCardInputs);
 titleInput.addEventListener('keyup', disableButton);
 captionInput.addEventListener('keyup', disableButton);
+document.querySelector('.inputfile').addEventListener('change', disableButton)
 
 reloadCards();
 
 function disableButton() {
   var addToAlbumButton = document.querySelector('.add-to-album-button');
-    if (titleInput.value !== '' && captionInput.value !== '') {
-      addToAlbumButton.disabled = false;
+    if (!titleInput.value || !captionInput.value || !document.querySelector('.inputfile').value) {
+      addToAlbumButton.disabled = true;
     } else {
-     addToAlbumButton.disabled = true;
+     addToAlbumButton.disabled = false;
     }
 };
-
-function select(field) {
-  return document.querySelector(field);
-}
 
 function favoriteFotoCard(e) {
   if (e.target.className === 'favorite-icon') {
@@ -63,9 +60,9 @@ function reloadCards() {
 function fotoCardProperties(e) {
   e.preventDefault();
   var reader = new FileReader();
-  reader.readAsDataURL(select('#choose-file-input').files[0])
+  reader.readAsDataURL(document.getElementById('file').files[0])
   reader.onload = function() {
-    var output = select('#choose-file-input');
+    var output = document.getElementById('file');
     output.src = reader.result;
     let newFotoObj = new Foto(titleInput.value, captionInput.value, output.src);
     newFotoObj.saveToStorage();
