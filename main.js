@@ -73,8 +73,9 @@ function fotoCardProperties(e) {
     newFotoObj.saveToStorage();
     populateFotoCard(newFotoObj);
     document.querySelector('.foto-form').reset();
+    document.querySelector('.add-to-album-button').disabled = true;
   }
-}
+};
 
 function populateFotoCard(newFotoObj) {
   let card = document.createElement('section');
@@ -102,6 +103,7 @@ function populateFotoCard(newFotoObj) {
 
 function removeFotoCard(e) {
   if (e.target.className === 'delete-icon') {
+    checkFavedOnDelete();
     let id = e.target.closest('.card').id;
     let deleteMethodObj = new Foto('', '', '', id);
     deleteMethodObj.deleteFromStorage();
@@ -109,6 +111,13 @@ function removeFotoCard(e) {
   }
   toggleMessage();
 };
+
+function checkFavedOnDelete() {
+    if (document.querySelector('.favorite-icon').src === "images/favorite-active.svg") {
+    faveCounter--; 
+    favoritesButton.innerText = faveCounter;
+  }
+}
 
 function toggleMessage() {
   if (Object.keys(localStorage).length === 0) {
