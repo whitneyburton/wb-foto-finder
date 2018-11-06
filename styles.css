@@ -188,12 +188,28 @@ h4 {
 .favorite-icon {
   height: 30px;
   padding: 12px;
+  transition: all 500ms ease;
 }
 
 .delete-icon:hover,
 .favorite-icon:hover {
   cursor: pointer;
+  height: 33px;
 }
+
+/* upload photo error message */
+.display-mode-none {
+  display: none;
+}
+
+.upload-photo-message {
+  color: #5B4447;
+  padding: 40px;
+  margin: 0 auto;
+  font-weight: 400;
+}
+
+/* media queries */
 
 @media screen and (max-width: 999px) {
   .card {

@@ -5,14 +5,21 @@ var faveCounter = 0;
 
 document.querySelector('.add-to-album-button').addEventListener('click', fotoCardProperties);
 document.querySelector('.add-to-album-button').disabled = true;
-document.querySelector('#card-article').addEventListener('click', removeFotoCard);
+document.getElementById('card-article').addEventListener('click', removeFotoCard);
 document.getElementById('card-article').addEventListener('click', favoriteFotoCard);
 document.getElementById('card-article').addEventListener('focusout', updateCardInputs);
 titleInput.addEventListener('keyup', disableButton);
 captionInput.addEventListener('keyup', disableButton);
 document.querySelector('.inputfile').addEventListener('change', disableButton)
 
+
 reloadCards();
+
+function displayNoPhotosMessage() {
+  if (!document.querySelector('.upload-photo-message').classList.contains('display-mode-none')) {
+      document.querySelector('.upload-photo-message').classList.add('display-mode-none') 
+  } 
+}
 
 function disableButton() {
   var addToAlbumButton = document.querySelector('.add-to-album-button');
@@ -37,12 +44,10 @@ function favoriteFotoCard(e) {
 function updateFaveIcon(faveFotoObj) {
     if (faveFotoObj.favorite) {
       faveCounter++;
-      console.log(faveCounter);
       favoritesButton.innerText = faveCounter;
       return "images/favorite-active.svg";
     } else {
       faveCounter--;
-      console.log(faveCounter);
       favoritesButton.innerText = faveCounter;
       return "images/favorite.svg";
     }
@@ -77,7 +82,7 @@ function populateFotoCard(newFotoObj) {
   card.className='card';
   card.id = newFotoObj.id;
   var favIcon = newFotoObj.favorite ? "images/favorite-active.svg" : "images/favorite.svg";
-  newFotoObj.favorite && faveCounter++
+  newFotoObj.favorite && faveCounter++;
   favoritesButton.innerText = faveCounter;
   card.innerHTML = 
     `<div class="card-wrapper">
@@ -91,6 +96,7 @@ function populateFotoCard(newFotoObj) {
         <img class="favorite-icon" src="${favIcon}">
       </section>
     </div>`;
+  displayNoPhotosMessage();
   cardArticle.prepend(card);
 };
 
@@ -101,7 +107,14 @@ function removeFotoCard(e) {
     deleteMethodObj.deleteFromStorage();
     e.target.closest('.card').remove();
   }
+  toggleMessage();
 };
+
+function toggleMessage() {
+  if (Object.keys(localStorage).length === 0) {
+    document.querySelector('.upload-photo-message').classList.remove('display-mode-none');
+  }
+}
 
 function updateCardInputs(e) {
   let id = e.target.closest('.card').id;
