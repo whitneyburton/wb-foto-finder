@@ -28,23 +28,18 @@
         <input type="text" class="title-input">
       <label for="caption-input">Caption</label>
         <input type="text" class="caption-input">
-
-      <label class="choose-file-button" for="choose-file-input">
-        <div class="choose-file-div">Choose File</div>
-      </label>
-        <input type="file" id="choose-file-input" accept="image/png, image/jpeg" class="buttons choose-file-button"/>
-
+      <input type="file" id="choose-file-input" accept="image/png, image/jpeg" class="choose-file-button"/>
+      <label class="choose-file-button" for="choose-file-input">Choose File</label>
       <div class="favorites-and-add-buttons">
-        <button class="buttons favorites-button">View <span class="num-of-favorites"></span> Favorites</button>
+        <button class="buttons favorites-button">
+          View <span class="num-of-favorites"></span> Favorites
+        </button>
         <button class="add-to-album-button buttons">Add to Album</button>
       </div>
     </form>
   </main>
 
-
-  <article id="card-article">
-    
-  </article>
+  <article id="card-article"></article>
 
 <script type="text/javascript" src="photo.js"></script>
 <script type="text/javascript" src="main.js"></script>

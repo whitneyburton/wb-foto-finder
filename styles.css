@@ -97,19 +97,12 @@ label {
   z-index: -1;
 }
 
-.choose-file-button {
-  background-color: #5B4447;
-  border-color: #5B4447;
-  color: #FFF;
-  height: 4.5vh;
-  letter-spacing: 1px;
-  width: 100%;
-  font-size: 12px;
-}
-
-.choose-file-div {
-  background-color: #5B4447;
-  padding: 1% 0% 1% 45%;
+#choose-file-input + .choose-file-button {
+    font-size: 12px;
+    font-weight: 400;
+    padding: 1% 45%;
+    color: white;
+    background-color: #5B4447;
 }
 
 .choose-file-button:disabled {
@@ -140,6 +133,10 @@ label {
 .favorites-button,
 .add-to-album-button {
   width: 42%;
+}
+
+.add-to-album-button:disabled {
+  background-color: #917a7c;
 }
 
 /* uploaded cards */
