@@ -10,10 +10,24 @@ document.getElementById('card-article').addEventListener('click', favoriteFotoCa
 document.getElementById('card-article').addEventListener('focusout', updateCardInputs);
 titleInput.addEventListener('keyup', disableButton);
 captionInput.addEventListener('keyup', disableButton);
-document.querySelector('.inputfile').addEventListener('change', disableButton)
-
+document.querySelector('.inputfile').addEventListener('change', disableButton);
+document.getElementById('search-input').addEventListener('keyup', searchFilter);
 
 reloadCards();
+
+function searchFilter() {
+  Object.keys(localStorage).forEach(function(fotoObj) {
+    let foto = document.getElementById(`${JSON.parse(localStorage[fotoObj]).id}`);
+    let localStorageTitle = JSON.parse(localStorage[fotoObj]).title;
+    let localStorageCaption = JSON.parse(localStorage[fotoObj]).caption;
+    let searchInput = document.getElementById('search-input').value.toLowerCase();
+      if (!localStorageTitle.toLowerCase().includes(searchInput) && !localStorageCaption.toLowerCase().includes(searchInput)) {
+        foto.classList.add('display-mode-none');
+      } else if (localStorageTitle.toLowerCase().includes(searchInput) && localStorageCaption.toLowerCase().includes(searchInput)) {
+        foto.classList.remove('display-mode-none');
+      }
+    })
+};
 
 function displayNoPhotosMessage() {
   if (!document.querySelector('.upload-photo-message').classList.contains('display-mode-none')) {
@@ -73,8 +87,9 @@ function fotoCardProperties(e) {
     newFotoObj.saveToStorage();
     populateFotoCard(newFotoObj);
     document.querySelector('.foto-form').reset();
+    document.querySelector('.add-to-album-button').disabled = true;
   }
-}
+};
 
 function populateFotoCard(newFotoObj) {
   let card = document.createElement('section');
@@ -102,6 +117,7 @@ function populateFotoCard(newFotoObj) {
 
 function removeFotoCard(e) {
   if (e.target.className === 'delete-icon') {
+    checkFavedOnDelete();
     let id = e.target.closest('.card').id;
     let deleteMethodObj = new Foto('', '', '', id);
     deleteMethodObj.deleteFromStorage();
@@ -109,6 +125,13 @@ function removeFotoCard(e) {
   }
   toggleMessage();
 };
+
+function checkFavedOnDelete() {
+    if (document.querySelector('.favorite-icon').src === "images/favorite-active.svg") {
+    faveCounter--; 
+    favoritesButton.innerText = faveCounter;
+  }
+}
 
 function toggleMessage() {
   if (Object.keys(localStorage).length === 0) {
