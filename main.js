@@ -1,42 +1,43 @@
 var titleInput =  document.querySelector('.title-input');
 var captionInput = document.querySelector('.caption-input');
 var favoritesButton = document.querySelector('.num-of-favorites');
+var addToAlbumButton = document.querySelector('.add-to-album-button');
+var entireCardArticle = document.getElementById('card-article');
 var faveCounter = 0;
 
-document.querySelector('.add-to-album-button').addEventListener('click', fotoCardProperties);
-document.querySelector('.add-to-album-button').disabled = true;
-document.getElementById('card-article').addEventListener('click', removeFotoCard);
-document.getElementById('card-article').addEventListener('click', favoriteFotoCard);
-document.getElementById('card-article').addEventListener('focusout', updateCardInputs);
+addToAlbumButton.disabled = true;
 titleInput.addEventListener('keyup', disableButton);
 captionInput.addEventListener('keyup', disableButton);
-document.querySelector('.inputfile').addEventListener('change', disableButton);
+addToAlbumButton.addEventListener('click', fotoCardProperties);
+entireCardArticle.addEventListener('click', removeFotoCard);
+entireCardArticle.addEventListener('click', favoriteFotoCard);
+entireCardArticle.addEventListener('focusout', updateCardInputs);
 document.getElementById('search-input').addEventListener('keyup', searchFilter);
-// document.querySelector('.show-more-button').addEventListener('click', showAllCards)
 document.querySelector('.favorite-and-all').addEventListener('click', viewFavsOrAll)
-
+document.querySelector('.inputfile').addEventListener('change', disableButton);
 
 reloadCards();
+
+function generateCards() {
+  for (var i = 0; i < 20; i++) {
+    let tempFoto = new Foto(`title ${i+1}`, `caption ${i+1}`, "https://upload.wikimedia.org/wikipedia/commons/a/a1/Alan_Turing_Aged_16.jpg" , i+1)
+    if (i % 2 === 0) {
+      tempFoto.favorite = true;
+    }
+    tempFoto.saveToStorage();
+  }
+};
 
 function viewFavsOrAll(e) {
   e.preventDefault();
   if (e.target.classList.contains('favorites-button')) {
-    viewOnlyFavorites(e)
-  } else if (e.target.classList.contains('view-all-button')){
+    viewOnlyFavs(e)
+  } else if (e.target.classList.contains('view-all-button')) {
     viewAll(e)
   }
 };
 
-function viewAll(e) {
-  document.querySelectorAll('.card').forEach(function(card) {
-    card.remove();
-  });
-  reloadCards();
-  e.target.innerText = `View ${faveCounter} Favorites`;
-  e.target.classList.replace('view-all-button', 'favorites-button');
-};
-
-function viewOnlyFavorites(e) {
+function viewOnlyFavs(e) {
   document.querySelectorAll('.card').forEach(function(card) {
     card.remove();
   });
@@ -52,18 +53,15 @@ function viewOnlyFavorites(e) {
   e.target.classList.replace('favorites-button', 'view-all-button');
 };
 
-// function showAllCards(e) {
-// }
-
-function generateCards() {
-  for (var i = 0; i < 20; i++) {
-    let tempFoto = new Foto(`title ${i+1}`, `caption ${i+1}`, "https://upload.wikimedia.org/wikipedia/commons/a/a1/Alan_Turing_Aged_16.jpg" , i+1)
-    if (i % 2 === 0) {
-      tempFoto.favorite = true;
-    }
-    tempFoto.saveToStorage();
-  }
-}
+function viewAll(e) {
+  document.querySelectorAll('.card').forEach(function(card) {
+    card.remove();
+  });
+  faveCounter = 0;
+  reloadCards();
+  e.target.innerText = `View ${faveCounter} Favorites`;
+  e.target.classList.replace('view-all-button', 'favorites-button');
+};
 
 function searchFilter(event) {
   Object.keys(localStorage).forEach(function(fotoObj) {
@@ -80,13 +78,13 @@ function searchFilter(event) {
 };
 
 function displayNoPhotosMessage() {
-  if (!document.querySelector('.upload-photo-message').classList.contains('display-mode-none')) {
-      document.querySelector('.upload-photo-message').classList.add('display-mode-none') 
+  let uploadFotoMessage = document.querySelector('.upload-photo-message');
+  if (!uploadFotoMessage.classList.contains('display-mode-none')) {
+      uploadFotoMessage.classList.add('display-mode-none') 
   } 
 };
 
 function disableButton() {
-  var addToAlbumButton = document.querySelector('.add-to-album-button');
     if (!titleInput.value || !captionInput.value || !document.querySelector('.inputfile').value) {
       addToAlbumButton.disabled = true;
     } else {
@@ -128,16 +126,16 @@ function reloadCards() {
 
 function fotoCardProperties(e) {
   e.preventDefault();
-  var reader = new FileReader();
+  let reader = new FileReader();
   reader.readAsDataURL(document.getElementById('file').files[0])
   reader.onload = function() {
-    var output = document.getElementById('file');
+    let output = document.getElementById('file');
     output.src = reader.result;
     let newFotoObj = new Foto(titleInput.value, captionInput.value, output.src);
     newFotoObj.saveToStorage();
     populateFotoCard(newFotoObj);
     document.querySelector('.foto-form').reset();
-    document.querySelector('.add-to-album-button').disabled = true;
+    addToAlbumButton.disabled = true;
   }
 };
 
@@ -146,7 +144,7 @@ function populateFotoCard(newFotoObj) {
   let cardArticle = document.getElementById('card-article');
   card.className='card';
   card.id = newFotoObj.id;
-  var favIcon = newFotoObj.favorite ? "images/favorite-active.svg" : "images/favorite.svg";
+  let favIcon = newFotoObj.favorite ? "images/favorite-active.svg" : "images/favorite.svg";
   newFotoObj.favorite && faveCounter++;
   favoritesButton.innerText = faveCounter;
   card.innerHTML = 
@@ -178,9 +176,9 @@ function removeFotoCard(e) {
 };
 
 function checkFavedOnDelete(isFavorite) {
-    if (isFavorite) {
-      faveCounter--; 
-      favoritesButton.innerText = faveCounter;
+  if (isFavorite) {
+    faveCounter--; 
+    favoritesButton.innerText = faveCounter;
   }
 };
 
@@ -196,8 +194,7 @@ function updateCardInputs(e) {
   let foto = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, id);
     if (e.target.className === 'card-title') {
       foto.updateFoto(e.target.innerText, 'title');
-    }
-    if (e.target.className === 'card-caption') {
+    } else if (e.target.className === 'card-caption') {
       foto.updateFoto(e.target.innerText, 'caption');
     }
 };
