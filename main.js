@@ -12,8 +12,58 @@ titleInput.addEventListener('keyup', disableButton);
 captionInput.addEventListener('keyup', disableButton);
 document.querySelector('.inputfile').addEventListener('change', disableButton);
 document.getElementById('search-input').addEventListener('keyup', searchFilter);
+// document.querySelector('.show-more-button').addEventListener('click', showAllCards)
+document.querySelector('.favorite-and-all').addEventListener('click', viewFavsOrAll)
+
 
 reloadCards();
+
+function viewFavsOrAll(e) {
+  e.preventDefault();
+  if (e.target.classList.contains('favorites-button')) {
+    viewOnlyFavorites(e)
+  } else if (e.target.classList.contains('view-all-button')){
+    viewAll(e)
+  }
+};
+
+function viewAll(e) {
+  document.querySelectorAll('.card').forEach(function(card) {
+    card.remove();
+  });
+  reloadCards();
+  e.target.innerText = `View ${faveCounter} Favorites`;
+  e.target.classList.replace('view-all-button', 'favorites-button');
+};
+
+function viewOnlyFavorites(e) {
+  document.querySelectorAll('.card').forEach(function(card) {
+    card.remove();
+  });
+  faveCounter = 0;
+  let favoriteFotos = Object.keys(localStorage).filter(function(key) {
+    let parsedObj = JSON.parse(localStorage[key]);
+    return parsedObj.favorite === true;
+  });
+  favoriteFotos.forEach(function(key) {
+    populateFotoCard(JSON.parse(localStorage.getItem(key)))
+  });
+  e.target.innerText = "View All";
+  e.target.classList.replace('favorites-button', 'view-all-button');
+};
+
+// function showAllCards(e) {
+// }
+
+function generateCards() {
+  for (var i = 0; i < 20; i++) {
+    let tempFoto = new Foto(`title ${i+1}`, `caption ${i+1}`, "https://upload.wikimedia.org/wikipedia/commons/a/a1/Alan_Turing_Aged_16.jpg" , i+1)
+    if (i % 2 === 0) {
+      tempFoto.favorite = true;
+    }
+    tempFoto.saveToStorage();
+  }
+}
 
 function searchFilter(event) {
   Object.keys(localStorage).forEach(function(fotoObj) {
@@ -117,8 +167,9 @@ function populateFotoCard(newFotoObj) {
 
 function removeFotoCard(e) {
   if (e.target.className === 'delete-icon') {
-    checkFavedOnDelete();
     let id = e.target.closest('.card').id;
+    let isFavorite = JSON.parse(localStorage.getItem(id)).favorite;
+    checkFavedOnDelete(isFavorite);
     let deleteMethodObj = new Foto('', '', '', id);
     deleteMethodObj.deleteFromStorage();
     e.target.closest('.card').remove();
@@ -126,10 +177,10 @@ function removeFotoCard(e) {
   toggleMessage();
 };
 
-function checkFavedOnDelete() {
-    if (document.querySelector('.favorite-icon').src === "images/favorite-active.svg") {
-    faveCounter--; 
-    favoritesButton.innerText = faveCounter;
+function checkFavedOnDelete(isFavorite) {
+    if (isFavorite) {
+      faveCounter--; 
+      favoritesButton.innerText = faveCounter;
   }
 };
 
