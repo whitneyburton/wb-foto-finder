@@ -211,7 +211,7 @@ h4 {
 }
 
 .upload-photo-message {
-  grid-column: 2/4;
+  grid-column: 1/7;
   color: #5B4447;
   padding-top: 20px;
   margin: 0 auto;
