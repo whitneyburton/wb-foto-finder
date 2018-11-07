@@ -13,10 +13,17 @@ entireCardArticle.addEventListener('click', removeFotoCard);
 entireCardArticle.addEventListener('click', favoriteFotoCard);
 entireCardArticle.addEventListener('focusout', updateCardInputs);
 document.getElementById('search-input').addEventListener('keyup', searchFilter);
-document.querySelector('.favorite-and-all').addEventListener('click', viewFavsOrAll)
+document.querySelector('.favorite-and-all').addEventListener('click', viewFavsOrAll);
 document.querySelector('.inputfile').addEventListener('change', disableButton);
 
 reloadCards();
+
+function checkFavedOnDelete(isFavorite) {
+  if (isFavorite) {
+    faveCounter--; 
+    favoritesButton.innerText = faveCounter;
+  }
+};
 
 function generateCards() {
   for (var i = 0; i < 20; i++) {
@@ -28,53 +35,12 @@ function generateCards() {
   }
 };
 
-function viewFavsOrAll(e) {
-  e.preventDefault();
-  if (e.target.classList.contains('favorites-button')) {
-    viewOnlyFavs(e)
-  } else if (e.target.classList.contains('view-all-button')) {
-    viewAll(e)
-  }
-};
-
-function viewOnlyFavs(e) {
-  document.querySelectorAll('.card').forEach(function(card) {
-    card.remove();
-  });
-  faveCounter = 0;
-  let favoriteFotos = Object.keys(localStorage).filter(function(key) {
-    let parsedObj = JSON.parse(localStorage[key]);
-    return parsedObj.favorite === true;
-  });
-  favoriteFotos.forEach(function(key) {
-    populateFotoCard(JSON.parse(localStorage.getItem(key)))
-  });
-  e.target.innerText = "View All";
-  e.target.classList.replace('favorites-button', 'view-all-button');
-};
-
-function viewAll(e) {
-  document.querySelectorAll('.card').forEach(function(card) {
-    card.remove();
-  });
-  faveCounter = 0;
-  reloadCards();
-  e.target.innerText = `View ${faveCounter} Favorites`;
-  e.target.classList.replace('view-all-button', 'favorites-button');
-};
-
-function searchFilter(event) {
-  Object.keys(localStorage).forEach(function(fotoObj) {
-    let foto = document.getElementById(`${JSON.parse(localStorage[fotoObj]).id}`);
-    let localStorageTitle = JSON.parse(localStorage[fotoObj]).title;
-    let localStorageCaption = JSON.parse(localStorage[fotoObj]).caption;
-    let searchInput = document.getElementById('search-input').value.toLowerCase();
-      if (!localStorageTitle.toLowerCase().includes(searchInput) && !localStorageCaption.toLowerCase().includes(searchInput)) {
-        foto.classList.add('display-mode-none');
-      } else if (localStorageTitle.toLowerCase().includes(searchInput) && localStorageCaption.toLowerCase().includes(searchInput)) {
-        foto.classList.remove('display-mode-none');
-      }
-    })
+function disableButton() {
+    if (!titleInput.value || !captionInput.value || !document.querySelector('.inputfile').value) {
+      addToAlbumButton.disabled = true;
+    } else {
+     addToAlbumButton.disabled = false;
+    }
 };
 
 function displayNoPhotosMessage() {
@@ -84,13 +50,6 @@ function displayNoPhotosMessage() {
   } 
 };
 
-function disableButton() {
-    if (!titleInput.value || !captionInput.value || !document.querySelector('.inputfile').value) {
-      addToAlbumButton.disabled = true;
-    } else {
-     addToAlbumButton.disabled = false;
-    }
-};
 
 function favoriteFotoCard(e) {
   if (e.target.className === 'favorite-icon') {
@@ -101,27 +60,6 @@ function favoriteFotoCard(e) {
     e.target.src = updateFaveIcon(faveFotoObj);
     faveFotoObj.saveToStorage();
   }
-};
-
-function updateFaveIcon(faveFotoObj) {
-    if (faveFotoObj.favorite) {
-      faveCounter++;
-      favoritesButton.innerText = faveCounter;
-      return "images/favorite-active.svg";
-    } else {
-      faveCounter--;
-      favoritesButton.innerText = faveCounter;
-      return "images/favorite.svg";
-    }
-};
-
-function reloadCards() {
-  document.querySelector('.foto-form').reset();
-    Object.keys(localStorage).forEach(function(key, index) {
-      if (index >= Object.keys(localStorage).length - 10) {
-      populateFotoCard(JSON.parse(localStorage.getItem(key)));
-    }
-  })
 };
 
 function fotoCardProperties(e) {
@@ -163,6 +101,15 @@ function populateFotoCard(newFotoObj) {
   cardArticle.prepend(card);
 };
 
+function reloadCards() {
+  document.querySelector('.foto-form').reset();
+    Object.keys(localStorage).forEach(function(key, index) {
+      if (index >= Object.keys(localStorage).length - 10) {
+      populateFotoCard(JSON.parse(localStorage.getItem(key)));
+    }
+  })
+};
+
 function removeFotoCard(e) {
   if (e.target.className === 'delete-icon') {
     let id = e.target.closest('.card').id;
@@ -175,11 +122,18 @@ function removeFotoCard(e) {
   toggleMessage();
 };
 
-function checkFavedOnDelete(isFavorite) {
-  if (isFavorite) {
-    faveCounter--; 
-    favoritesButton.innerText = faveCounter;
-  }
+function searchFilter(e) {
+  Object.keys(localStorage).forEach(function(fotoObj) {
+    let foto = document.getElementById(`${JSON.parse(localStorage[fotoObj]).id}`);
+    let localStorageTitle = JSON.parse(localStorage[fotoObj]).title;
+    let localStorageCaption = JSON.parse(localStorage[fotoObj]).caption;
+    let searchInput = document.getElementById('search-input').value.toLowerCase();
+      if (!localStorageTitle.toLowerCase().includes(searchInput) && !localStorageCaption.toLowerCase().includes(searchInput)) {
+        foto.classList.add('display-mode-none');
+      } else if (localStorageTitle.toLowerCase().includes(searchInput) && localStorageCaption.toLowerCase().includes(searchInput)) {
+        foto.classList.remove('display-mode-none');
+      }
+    })
 };
 
 function toggleMessage() {
@@ -197,4 +151,51 @@ function updateCardInputs(e) {
     } else if (e.target.className === 'card-caption') {
       foto.updateFoto(e.target.innerText, 'caption');
     }
+};
+
+function updateFaveIcon(faveFotoObj) {
+    if (faveFotoObj.favorite) {
+      faveCounter++;
+      favoritesButton.innerText = faveCounter;
+      return "images/favorite-active.svg";
+    } else {
+      faveCounter--;
+      favoritesButton.innerText = faveCounter;
+      return "images/favorite.svg";
+    }
+};
+
+function viewFavsOrAll(e) {
+  e.preventDefault();
+  if (e.target.classList.contains('favorites-button')) {
+    viewOnlyFavs(e)
+  } else if (e.target.classList.contains('view-all-button')) {
+    viewAll(e)
+  }
+};
+
+function viewOnlyFavs(e) {
+  document.querySelectorAll('.card').forEach(function(card) {
+    card.remove();
+  });
+  faveCounter = 0;
+  let favoriteFotos = Object.keys(localStorage).filter(function(key) {
+    let parsedObj = JSON.parse(localStorage[key]);
+    return parsedObj.favorite === true;
+  });
+  favoriteFotos.forEach(function(key) {
+    populateFotoCard(JSON.parse(localStorage.getItem(key)))
+  });
+  e.target.innerText = "View All";
+  e.target.classList.replace('favorites-button', 'view-all-button');
+};
+
+function viewAll(e) {
+  document.querySelectorAll('.card').forEach(function(card) {
+    card.remove();
+  });
+  faveCounter = 0;
+  reloadCards();
+  e.target.innerText = `View ${faveCounter} Favorites`;
+  e.target.classList.replace('view-all-button', 'favorites-button');
 };
