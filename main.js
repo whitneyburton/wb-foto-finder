@@ -15,7 +15,7 @@ document.getElementById('search-input').addEventListener('keyup', searchFilter);
 
 reloadCards();
 
-function searchFilter() {
+function searchFilter(event) {
   Object.keys(localStorage).forEach(function(fotoObj) {
     let foto = document.getElementById(`${JSON.parse(localStorage[fotoObj]).id}`);
     let localStorageTitle = JSON.parse(localStorage[fotoObj]).title;
@@ -33,7 +33,7 @@ function displayNoPhotosMessage() {
   if (!document.querySelector('.upload-photo-message').classList.contains('display-mode-none')) {
       document.querySelector('.upload-photo-message').classList.add('display-mode-none') 
   } 
-}
+};
 
 function disableButton() {
   var addToAlbumButton = document.querySelector('.add-to-album-button');
@@ -69,12 +69,12 @@ function updateFaveIcon(faveFotoObj) {
 
 function reloadCards() {
   document.querySelector('.foto-form').reset();
-    Object.keys(localStorage).forEach(function(key) {
+    Object.keys(localStorage).forEach(function(key, index) {
+      if (index >= Object.keys(localStorage).length - 10) {
       populateFotoCard(JSON.parse(localStorage.getItem(key)));
+    }
   })
 };
-// map through (instead of forEach) to go through array and splice to take out ten for 
-// the 
 
 function fotoCardProperties(e) {
   e.preventDefault();
@@ -131,20 +131,20 @@ function checkFavedOnDelete() {
     faveCounter--; 
     favoritesButton.innerText = faveCounter;
   }
-}
+};
 
 function toggleMessage() {
   if (Object.keys(localStorage).length === 0) {
     document.querySelector('.upload-photo-message').classList.remove('display-mode-none');
   }
-}
+};
 
 function updateCardInputs(e) {
   let id = e.target.closest('.card').id;
   let parsedFoto = JSON.parse(localStorage.getItem(id));
-  let foto = new Foto(parsedFoto.title, parsedFoto.body, '', id);
+  let foto = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, id);
     if (e.target.className === 'card-title') {
-      foto.updateFoto('title', e.target.innerText);
+      foto.updateFoto(e.target.innerText, 'title');
     }
     if (e.target.className === 'card-caption') {
       foto.updateFoto(e.target.innerText, 'caption');
