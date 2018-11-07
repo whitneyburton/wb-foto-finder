@@ -69,8 +69,10 @@ function updateFaveIcon(faveFotoObj) {
 
 function reloadCards() {
   document.querySelector('.foto-form').reset();
-    Object.keys(localStorage).forEach(function(key) {
+    Object.keys(localStorage).forEach(function(key, index) {
+      if (index >= Object.keys(localStorage).length - 10) {
       populateFotoCard(JSON.parse(localStorage.getItem(key)));
+    }
   })
 };
 // map through (instead of forEach) to go through array and splice to take out ten for 
@@ -142,9 +144,9 @@ function toggleMessage() {
 function updateCardInputs(e) {
   let id = e.target.closest('.card').id;
   let parsedFoto = JSON.parse(localStorage.getItem(id));
-  let foto = new Foto(parsedFoto.title, parsedFoto.body, '', id);
+  let foto = new Foto(parsedFoto.title, parsedFoto.caption, parsedFoto.file, id);
     if (e.target.className === 'card-title') {
-      foto.updateFoto('title', e.target.innerText);
+      foto.updateFoto(e.target.innerText, 'title');
     }
     if (e.target.className === 'card-caption') {
       foto.updateFoto(e.target.innerText, 'caption');
