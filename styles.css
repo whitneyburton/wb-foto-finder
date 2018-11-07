@@ -19,12 +19,13 @@ header {
   background-color: #3E2A35;
   display: flex;
   justify-content: space-between;
-  padding: 15px 20px;
+  padding: 0px 30px;
 }
 
 h1 {
   color: #FFF;
   letter-spacing: 2px
+  margin: 0px;
 }
 
 .foto-finder-logo {
@@ -35,7 +36,7 @@ h1 {
 .search-form {
   display: flex;
   height: 4vh;
-  padding-top: 5px;
+  padding-top: 23px;
 }
 
 #search-input {
@@ -44,6 +45,7 @@ h1 {
   color: #8A8494;
   outline-color: #bfb3b4;
   padding: 5px;
+  font-size: 12px;
 }
 
 .search-button {
@@ -108,14 +110,15 @@ main {
     font-size: 12px;
     font-weight: 400;
     text-align: center;
-    height: 30px;
+    height: 25px;
     padding-top: 10px;
     color: white;
     background-color: #5B4447;
+    letter-spacing: 1px;
 }
 
-.choose-file-button:disabled {
-  background-color: #808080;
+label:hover {
+  cursor: pointer;
 }
 
 /* favorites & add to album buttons */
@@ -125,7 +128,6 @@ main {
   color: #FFF;
   height: 35px;
   letter-spacing: 1px;
-  margin-bottom: 20px;
 }
 
 .buttons:hover,
@@ -136,12 +138,13 @@ main {
 .favorites-and-add-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 18px;
+  margin: 20px 0px;
 }
 
 .favorites-button,
 .add-to-album-button {
   width: 42%;
+  font-size: 12px;
 }
 
 .add-to-album-button:disabled {

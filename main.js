@@ -10,10 +10,24 @@ document.getElementById('card-article').addEventListener('click', favoriteFotoCa
 document.getElementById('card-article').addEventListener('focusout', updateCardInputs);
 titleInput.addEventListener('keyup', disableButton);
 captionInput.addEventListener('keyup', disableButton);
-document.querySelector('.inputfile').addEventListener('change', disableButton)
-
+document.querySelector('.inputfile').addEventListener('change', disableButton);
+document.getElementById('search-input').addEventListener('keyup', searchFilter);
 
 reloadCards();
+
+function searchFilter() {
+  Object.keys(localStorage).forEach(function(fotoObj) {
+    let foto = document.getElementById(`${JSON.parse(localStorage[fotoObj]).id}`);
+    let localStorageTitle = JSON.parse(localStorage[fotoObj]).title;
+    let localStorageCaption = JSON.parse(localStorage[fotoObj]).caption;
+    let searchInput = document.getElementById('search-input').value.toLowerCase();
+      if (!localStorageTitle.toLowerCase().includes(searchInput) && !localStorageCaption.toLowerCase().includes(searchInput)) {
+        foto.classList.add('display-mode-none');
+      } else if (localStorageTitle.toLowerCase().includes(searchInput) && localStorageCaption.toLowerCase().includes(searchInput)) {
+        foto.classList.remove('display-mode-none');
+      }
+    })
+};
 
 function displayNoPhotosMessage() {
   if (!document.querySelector('.upload-photo-message').classList.contains('display-mode-none')) {
