@@ -15,7 +15,7 @@ document.getElementById('search-input').addEventListener('keyup', searchFilter);
 
 reloadCards();
 
-function searchFilter() {
+function searchFilter(event) {
   Object.keys(localStorage).forEach(function(fotoObj) {
     let foto = document.getElementById(`${JSON.parse(localStorage[fotoObj]).id}`);
     let localStorageTitle = JSON.parse(localStorage[fotoObj]).title;
@@ -33,7 +33,7 @@ function displayNoPhotosMessage() {
   if (!document.querySelector('.upload-photo-message').classList.contains('display-mode-none')) {
       document.querySelector('.upload-photo-message').classList.add('display-mode-none') 
   } 
-}
+};
 
 function disableButton() {
   var addToAlbumButton = document.querySelector('.add-to-album-button');
@@ -75,8 +75,6 @@ function reloadCards() {
     }
   })
 };
-// map through (instead of forEach) to go through array and splice to take out ten for 
-// the 
 
 function fotoCardProperties(e) {
   e.preventDefault();
@@ -133,13 +131,13 @@ function checkFavedOnDelete() {
     faveCounter--; 
     favoritesButton.innerText = faveCounter;
   }
-}
+};
 
 function toggleMessage() {
   if (Object.keys(localStorage).length === 0) {
     document.querySelector('.upload-photo-message').classList.remove('display-mode-none');
   }
-}
+};
 
 function updateCardInputs(e) {
   let id = e.target.closest('.card').id;
